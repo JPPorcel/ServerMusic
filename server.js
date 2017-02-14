@@ -44,9 +44,9 @@ router.get('/marchas', function(req, res)
 
 router.get('/marcha/:id', function(req, res) 
 {  	
-	if (fs.existsSync("./marchas/" + req.params.id + ".wav")) 
+	if (fs.existsSync("./marchas/" + req.params.id + ".mp3")) 
 	{
-		res.sendFile(__dirname + "/marchas/" + req.params.id + ".wav");
+		res.sendFile(__dirname + "/marchas/" + req.params.id + ".mp3");
 	}
 	else
 	{
