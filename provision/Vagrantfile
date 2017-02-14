@@ -1,0 +1,31 @@
+Vagrant.configure("2") do |config|
+  
+  config.vm.define :server do |server|
+    eventos.vm.box = "dummy"
+    server.vm.synced_folder ".", "/vagrant", disabled: true, type: "rsync"
+
+    server.vm.provider :aws do |aws, override|
+      aws.access_key_id = ENV['AWS_KEY']
+      aws.secret_access_key = ENV['AWS_SECRET']
+      aws.keypair_name = ENV['AWS_KEYNAME']
+      aws.ami = 'ami-7c803d1c' # Ubuntu16
+      aws.region = 'us-west-2'
+      aws.instance_type = 't2.micro'
+      aws.security_groups = ENV['AWS_SECURITY_GROUP']
+
+      aws.tags = {
+        'Name' => 'server'
+      }
+
+      override.vm.box = "dummy"
+      override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = ENV['AWS_KEYPATH']
+    end
+
+	server.vm.network :forwarded_port, host: 8080, guest: 80
+    server.vm.provision :ansible do |ansible|
+      ansible.playbook = "ansible.yml"
+    end
+  end
+  
+end

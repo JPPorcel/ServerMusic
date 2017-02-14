@@ -1,0 +1,33 @@
+---
+- hosts: server
+  become: true
+  
+  vars:
+    pass_mysql: "root"
+  
+  tasks:
+    - name: Update Apt cache
+      apt: update_cache=yes
+    
+    - name: Install git
+      apt: pkg=git state=present
+
+    - name: Install NodeJS and npm
+      apt: name={{ item }} state=present
+      with_items:
+        - nodejs
+        - nodejs-dev
+        - nodejs-legacy
+        - npm
+    
+    - name: Install express
+      npm: name=express global=yes
+    
+    - name: Install MySQL
+      shell: "sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password {{ pass_mysql }}' && sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password {{ pass_mysql }}' && sudo apt-get -y install mysql-server"
+    
+    - name: Clone repo
+      git: repo=https://github.com/JPPorcel/ServerMusic.git dest=/opt/app version=HEAD
+      
+    - npm:
+      path: /opt/app
