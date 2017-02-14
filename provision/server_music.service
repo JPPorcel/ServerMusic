@@ -1,9 +1,10 @@
 [Unit]
 Description=server
+Requires=After=mysql.service
 
 [Service]
 WorkingDirectory=/opt/app/
-ExecStart=node /opt/app/server.js
+ExecStart=/usr/bin/node /opt/app/server.js
 Restart=always
 
 [Install]
