@@ -39,3 +39,7 @@ jspm_packages
 # Variables de entorno AWS
 provision/aws-credentials
 provision/.vagrant
+
+
+# Archivos de música
+marchas/

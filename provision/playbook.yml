@@ -36,7 +36,7 @@
     - name: Install dependencies with npm
       shell: "cd /opt/app && npm install"
       
-    - name: Load databse
+    - name: Load database
       shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < marchas.sql"
       
     - name: Run server as a ubuntu service

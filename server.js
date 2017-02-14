@@ -2,8 +2,9 @@
 var express = require("express"),  
     app = express(),
     bodyParser  = require("body-parser"),
-    methodOverride = require("method-override");
-    mysql = require('mysql');
+    methodOverride = require("method-override"),
+    mysql = require('mysql'),
+	fs = require('fs');
 	
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -42,6 +43,18 @@ router.get('/marchas', function(req, res)
 });
 
 router.get('/marcha/:id', function(req, res) 
+{  	
+	if (fs.existsSync("./marchas/" + req.params.id + ".wav")) 
+	{
+		res.sendFile(__dirname + "/marchas/" + req.params.id + ".wav");
+	}
+	else
+	{
+		res.send("no exists");
+	}
+});
+
+router.get('/marcha/info/:id', function(req, res) 
 {  
 	connection.query("SELECT * FROM Marchas where id='" + req.params.id + "'",function(err,rows){
 		if(err) throw err;

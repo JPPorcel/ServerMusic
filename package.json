@@ -6,6 +6,7 @@
 		"mysql": "latest",
 		"express": "latest",
 		"method-override": "latest",
-		"body-parser": "latest"
+		"body-parser": "latest",
+		"fs": "latest"
 	}
 }
