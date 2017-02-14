@@ -1,0 +1,10 @@
+[Unit]
+Description=server
+
+[Service]
+WorkingDirectory=/opt/app/
+ExecStart=node /opt/app/server.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

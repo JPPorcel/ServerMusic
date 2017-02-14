@@ -1,0 +1,43 @@
+---
+- hosts: server
+  become: true
+  gather_facts: no
+  
+  vars:
+    pass_mysql: "root"
+
+  # Ansible requires python2, which is not installed by default on Ubuntu Xenial
+  pre_tasks:
+    - raw: sudo apt-get upgrade && sudo apt-get -y install python-simplejson
+    # action: setup will gather facts after python2 has been installed
+    - action: setup
+  
+  tasks:
+    - name: Update Apt cache
+      apt: update_cache=yes
+    
+    - name: Install git
+      apt: pkg=git state=present
+
+    - name: Install NodeJS and npm
+      apt: name={{ item }} state=present
+      with_items:
+        - nodejs
+        - nodejs-dev
+        - nodejs-legacy
+        - npm
+    
+    - name: Install MySQL
+      apt: pkg=mysql-server state=present
+    
+    - name: Clone repo
+      git: repo=https://github.com/JPPorcel/ServerMusic.git dest=/opt/app version=HEAD
+      
+    - name: Install dependencies with npm
+      shell: "cd /opt/app && npm install"
+      
+    - name: Load databse
+      shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < marchas.sql"
+      
+    - name: Run server as a ubuntu service
+      shell: 'cp /opt/app/provision/server_music.service /etc/systemd/system/server_music.service && systemctl daemon-reload && systemctl enable server_music && systemctl start server_music'

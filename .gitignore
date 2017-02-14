@@ -37,4 +37,5 @@ jspm_packages
 .node_repl_history
 
 # Variables de entorno AWS
-provision/variables_entorno
+provision/aws-credentials
+provision/.vagrant
