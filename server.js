@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   database : 'Music'
 });
 
-connection.connect();
+
 
 app.use(bodyParser.urlencoded({ extended: false }));  
 app.use(bodyParser.json());  
@@ -32,7 +32,6 @@ router.get('/marchas', function(req, res)
 {  
 	connection.query("select * from Marchas",function(err,rows){
 		if(err) throw err;
-		connection.end();
 
 		res.send(rows);
 	});
@@ -56,7 +55,6 @@ router.get('/marcha/info/:id', function(req, res)
 {  
 	connection.query("select * from Marchas where id='" + req.params.id + "'",function(err,rows){
 		if(err) throw err;
-		connection.end();
 
 		res.send(rows);
 	});
