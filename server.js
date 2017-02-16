@@ -13,13 +13,7 @@ var connection = mysql.createConnection({
   database : 'Music'
 });
 
-connection.connect(function(err){
-	if(!err) {
-		console.log("Database is connected ... " + err);    
-	} else {
-		console.log("Error connecting database ... " + err);    
-	}
-});
+connection.connect();
 
 app.use(bodyParser.urlencoded({ extended: false }));  
 app.use(bodyParser.json());  
@@ -27,14 +21,16 @@ app.use(methodOverride());
 
 var router = express.Router();
 
+// raíz del servidor - devolverá html
 router.get('/', function(req, res) 
 {  
-	res.send("raiz");
+	res.send("Server Music");
 });
 
+// devolverá lista de marchas
 router.get('/marchas', function(req, res) 
 {  
-	connection.query("SELECT * FROM Marchas limit 10",function(err,rows){
+	connection.query("select * from Marchas",function(err,rows){
 		if(err) throw err;
 		connection.end();
 
@@ -42,6 +38,7 @@ router.get('/marchas', function(req, res)
 	});
 });
 
+// devuelve el archivo de audio de una marcha, si existe
 router.get('/marcha/:id', function(req, res) 
 {  	
 	if (fs.existsSync("./marchas/" + req.params.id + ".mp3")) 
@@ -50,13 +47,14 @@ router.get('/marcha/:id', function(req, res)
 	}
 	else
 	{
-		res.send("no exists");
+		res.send("not exists");
 	}
 });
 
+// devuelve la información de una marcha, si existe
 router.get('/marcha/info/:id', function(req, res) 
 {  
-	connection.query("SELECT * FROM Marchas where id='" + req.params.id + "'",function(err,rows){
+	connection.query("select * from Marchas where id='" + req.params.id + "'",function(err,rows){
 		if(err) throw err;
 		connection.end();
 
