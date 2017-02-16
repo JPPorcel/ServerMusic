@@ -4,7 +4,7 @@ Requires=After=mysql.service
 
 [Service]
 WorkingDirectory=/opt/app/
-ExecStart=/usr/bin/node /opt/app/server.js
+ExecStart=/usr/bin/node /opt/app/server.js > /opt/app/log.txt
 Restart=always
 
 [Install]

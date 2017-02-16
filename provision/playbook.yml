@@ -41,7 +41,7 @@
       shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < marchas.sql && mysql Music < localidades.sql"
     
     - name: Download music
-      shell: "cd /opt/app && wget https://www.dropbox.com/s/8aekalouxkwj36l/marchas.zip?dl=0 && unzip marchas.zip\?dl\=0"
+      shell: "cd /opt/app && wget https://www.dropbox.com/s/8aekalouxkwj36l/marchas.zip?dl=0 && unzip marchas.zip?dl=0"
       
     - name: Run server as a ubuntu service
       shell: 'cp /opt/app/provision/server_music.service /etc/systemd/system/server_music.service && systemctl daemon-reload && systemctl enable server_music && systemctl start server_music'
