@@ -7,6 +7,7 @@
 		"express": "latest",
 		"method-override": "latest",
 		"body-parser": "latest",
-		"fs": "latest"
+		"fs": "latest",
+		"mp3-duration": "latest"
 	}
 }

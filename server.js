@@ -4,7 +4,8 @@ var express = require("express"),
     bodyParser  = require("body-parser"),
     methodOverride = require("method-override"),
     mysql = require('mysql'),
-	fs = require('fs');
+	fs = require('fs'),
+	mp3Duration = require('mp3-duration');
 	
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -53,10 +54,20 @@ router.get('/marcha/:id', function(req, res)
 // devuelve la información de una marcha, si existe
 router.get('/marcha/info/:id', function(req, res) 
 {  
-	connection.query("select * from Marchas where id='" + req.params.id + "'",function(err,rows){
+	connection.query("select * from Marchas where id='" + req.params.id + "'",function(err,rows)
+	{
 		if(err) throw err;
-
-		res.send(rows);
+		
+		if (fs.existsSync("./marchas/" + req.params.id + ".mp3")) 
+		{
+			mp3Duration(__dirname + "/marchas/" + req.params.id + ".mp3", function (err, duration) {
+				if (err) return console.log(err.message);
+				rows[0].duration = duration;
+				res.send(rows[0]);
+			});
+		}
+		else
+			res.send(rows[0]);
 	});
 });
 
