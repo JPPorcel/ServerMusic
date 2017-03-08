@@ -35,7 +35,7 @@
       git: repo=https://github.com/JPPorcel/ServerMusic.git dest=/opt/app version=HEAD
       
     - name: Install dependencies with npm
-      shell: "cd /opt/app && npm install"
+      shell: "cd /opt/app && sudo npm install"
       
     - name: Load database
       shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < marchas.sql && mysql Music < localidades.sql"
