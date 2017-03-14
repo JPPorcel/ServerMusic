@@ -12,6 +12,7 @@ create table if not exists Marchas
     titulo varchar(200) not null,
     autor varchar(200) not null,
     tipo varchar(10) not null,
+    duration double,
     primary key (id)
 );
 

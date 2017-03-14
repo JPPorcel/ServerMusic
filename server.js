@@ -47,17 +47,9 @@ router.get('/marchas', function(req, res)
 // devuelve el archivo de audio de una marcha, si existe
 router.get('/marcha/:id', function(req, res) 
 {  	
-	if (fs.existsSync("./marchas/" + req.params.id + ".mp3")) 
-	{
-		res.setHeader('content-type', 'audio/mpeg');
-		//res.sendFile(__dirname + "/marchas/" + req.params.id + ".mp3");
-		request('http://s3.eu-west-2.amazonaws.com/marchas-storage/'+ req.params.id + '.mp3').pipe(res); 
-	}
-	else
-	{
-		res.setHeader('content-type', 'text/plain');
-		res.send("not exists");
-	}
+	res.setHeader('content-type', 'audio/mpeg');
+	//res.sendFile(__dirname + "/marchas/" + req.params.id + ".mp3");
+	request('http://s3.eu-west-2.amazonaws.com/marchas-storage/'+ req.params.id + '.mp3').pipe(res);
 });
 
 // devuelve la información de una marcha, si existe
@@ -65,22 +57,11 @@ router.get('/marcha/info/:id', function(req, res)
 {  
 	connection.query("select * from Marchas where id='" + req.params.id + "'",function(err,rows)
 	{
-		if(err) throw err;
+		if(err) 
+			throw err;
 		
-		if (fs.existsSync("./marchas/" + req.params.id + ".mp3")) 
-		{
-			mp3Duration(__dirname + "/marchas/" + req.params.id + ".mp3", function (err, duration) {
-				if (err) return console.log(err.message);
-				rows[0].duration = duration;
-				res.setHeader('content-type', 'application/json; charset=utf-8');
-				res.send(rows[0]);
-			});
-		}
-		else
-		{
-			res.setHeader('content-type', 'application/json; charset=utf-8');
-			res.send(rows[0]);
-		}
+		res.setHeader('content-type', 'application/json; charset=utf-8');
+		res.send(rows[0]);
 	});
 });
 
