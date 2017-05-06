@@ -12,10 +12,10 @@ var express = require("express"),
 	request = require('request');
 	
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'music',
-  password : 'music',
-  database : 'Music'
+	host     : 'localhost',
+	user     : 'music',
+	password : 'music',
+	database : 'Music'
 });
 
 
@@ -39,7 +39,7 @@ router.get('/marchas', function(req, res)
 		if(err) 
 			throw err;
 		
-		res.setHeader('content-type', 'application/json; charset=utf-8');
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
 	});
 });
@@ -60,7 +60,7 @@ router.get('/marcha/info/:id', function(req, res)
 		if(err) 
 			throw err;
 		
-		res.setHeader('content-type', 'application/json; charset=utf-8');
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows[0]);
 	});
 });
@@ -75,7 +75,7 @@ router.get('/filtro/:filtro', function(req, res)
 		
 		console.log(req.params.filtro);
 		
-		res.setHeader('content-type', 'application/json; charset=utf-8');
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
 	});
 });

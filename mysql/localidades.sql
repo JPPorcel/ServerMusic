@@ -1,4 +1,6 @@
 -- --------------------------------------------------------
+SET NAMES 'utf8' COLLATE 'utf8_general_ci';
+
 insert into Provincia values
 (1, 'Álava'),
 (2, 'Albacete'),

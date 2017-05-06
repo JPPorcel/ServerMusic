@@ -27,6 +27,11 @@
         - nodejs-legacy
         - npm
         - unzip
+        
+    - name: Install pm2 for manage our nodejs application
+      npm:
+        name: pm2
+        global: yes
     
     - name: Install MySQL
       apt: pkg=mysql-server state=present
@@ -38,10 +43,10 @@
       shell: "cd /opt/app && sudo npm install"
       
     - name: Load database
-      shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < marchas.sql && mysql Music < localidades.sql"
-    
-    - name: Download music
-      shell: "cd /opt/app && wget https://www.dropbox.com/s/8aekalouxkwj36l/marchas.zip?dl=0 && unzip marchas.zip?dl=0"
+      shell: "cd /opt/app/mysql && mysql < modelo.sql && mysql Music < autores.sql && mysql Music < marchas.sql && mysql Music < localidades.sql"
       
-    - name: Run server as a ubuntu service
-      shell: 'cp /opt/app/provision/server_music.service /etc/systemd/system/server_music.service && systemctl daemon-reload && systemctl enable server_music && systemctl start server_music'
+    #- name: Run server as a ubuntu service
+      #shell: 'cp /opt/app/provision/server_music.service /etc/systemd/system/server_music.service && systemctl daemon-reload && systemctl enable server_music && systemctl start server_music'
+      
+    - name: Run server with pm2
+      shell: 'cd /opt/app && pm2 start server.js && pm2 startup'
