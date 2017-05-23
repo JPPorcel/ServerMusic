@@ -18,7 +18,6 @@ create table if not exists Localidad
     id int not null auto_increment,
     provincia int not null references Provincia(id),
     nombre varchar(255) collate latin1_spanish_ci not null,
-    mostrar varchar(10),
     coordenadas varchar(100),
     primary key (id)
 );
@@ -26,10 +25,10 @@ create table if not exists Localidad
 create table if not exists Usuarios
 (
 	idFacebook varchar(100) not null,
-	email varchar(200) not null,
 	nombre varchar(200) not null,
 	apellidos varchar(200),
 	localidad int not null references Localidad(id),
+	imagen varchar(500),
 	primary key (idFacebook)
 );
 

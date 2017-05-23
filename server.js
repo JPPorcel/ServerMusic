@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 
 
 
-app.use(bodyParser.urlencoded({ extended: false }));  
+app.use(bodyParser.urlencoded({ extended: true }));  
 app.use(bodyParser.json());  
 app.use(methodOverride());
 
@@ -65,7 +65,6 @@ router.get('/marcha/info/:id', function(req, res)
 	});
 });
 
-
 router.get('/filtro/:filtro', function(req, res)
 {
 	connection.query("select * from Marchas where titulo like '%" + req.params.filtro + "%' or autor like '%" + req.params.filtro + "%'", function (err, rows)
@@ -74,6 +73,49 @@ router.get('/filtro/:filtro', function(req, res)
 			throw err;
 		
 		console.log(req.params.filtro);
+		
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
+		res.send(rows);
+	});
+});
+
+router.post('/users/register', function(req, res)
+{
+	var id = req.body.idFacebook;
+	var nombre = req.body.nombre;
+	var apellidos = req.body.apellidos;
+	var localidad = req.body.localidad;
+	var imagen = req.body.imagen;
+	
+	connection.query("select * from Usuarios where idFacebook='" + id + "'", function (err, rows)
+	{
+		if(err)
+			throw err;
+		
+		if(rows.length == 0)
+		{
+			connection.query("insert into Usuarios values ('"+ id + "', '" + nombre + "', '" + apellidos + "', " + localidad + ", '" + imagen + "')", function (err, rows)
+			{
+				if(err)
+					throw err;
+				
+				res.set({ 'content-type': 'application/json; charset=utf-8' });
+				res.send("{'message': 'ok'}");
+			});
+		}
+		else
+		{
+			res.set({ 'content-type': 'application/json; charset=utf-8' });
+			res.send("{'message': 'user already registered'}");
+		}
+	});
+});
+
+router.get('/localidades', function(req, res)
+{
+	connection.query("select * from Localidad",function(err,rows){
+		if(err) 
+			throw err;
 		
 		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
