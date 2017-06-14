@@ -4,7 +4,7 @@
   gather_facts: no
   
   vars:
-    pass_mysql: "root"
+    pass_mysql: lookup('env', 'PASS_MYSQL')
 
   # Ansible requires python2, which is not installed by default on Ubuntu Xenial
   pre_tasks:
@@ -50,3 +50,9 @@
       
     - name: Run server with pm2
       shell: 'cd /opt/app && pm2 start server.js && pm2 startup'
+      
+    - name: Install nginx
+      apt: pkg=nginx state=present
+      
+    - name: Configure nginx
+      shell: 'cd /opt/app/provision && cp sites-available_default /etc/nginx/sites-available/default && sudo service nginx restart'
