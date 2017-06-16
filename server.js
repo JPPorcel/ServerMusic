@@ -206,7 +206,7 @@ router.post('/historial/nuevo', function(req, res)
 		}
 		else
 		{
-			connection.query("insert into Escuchas values ('"+ claveEscucha + "', '" + user + "', '" + marcha + "', " + ip + ", now())", function (err, rows)
+			connection.query("insert into Escuchas values ('"+ claveEscucha + "', '" + user + "', '" + marcha + "', '" + ip + "', now())", function (err, rows)
             {
                 if(err)
                     throw err;
