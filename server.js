@@ -18,6 +18,8 @@ var connection = mysql.createConnection({
 	database : 'Music'
 });
 
+var crypto = require("crypto");
+
 function getHashKey()
 {
     var current_date = (new Date()).valueOf().toString();
@@ -191,16 +193,8 @@ router.post('/historial/nuevo', function(req, res)
     var marcha = req.body.marcha
     var claveEscucha = getHashKey()
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-    var date;
-    date = new Date();
-    date = date.getUTCFullYear() + '-' +
-        ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
-        ('00' + date.getUTCHours()).slice(-2) + ':' + 
-        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
-        ('00' + date.getUTCSeconds()).slice(-2);
         
-    connection.query("select * from Usuarios where idFacebook='" + id + "'", function (err, rows)
+    connection.query("select * from Usuarios where idFacebook='" + user + "'", function (err, rows)
 	{
 		if(err)
 			throw err;
@@ -212,7 +206,7 @@ router.post('/historial/nuevo', function(req, res)
 		}
 		else
 		{
-			connection.query("insert into Escuchas values ('"+ claveEscucha + "', '" + user + "', '" + marcha + "', " + ip + ", '" + date + "')", function (err, rows)
+			connection.query("insert into Escuchas values ('"+ claveEscucha + "', '" + user + "', '" + marcha + "', " + ip + ", now())", function (err, rows)
             {
                 if(err)
                     throw err;
