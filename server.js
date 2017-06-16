@@ -31,6 +31,7 @@ function getHashKey()
 app.use(bodyParser.urlencoded({ extended: true }));  
 app.use(bodyParser.json());  
 app.use(methodOverride());
+app.enable('trust proxy')
 
 var router = express.Router();
 
@@ -192,7 +193,7 @@ router.post('/historial/nuevo', function(req, res)
     var user = req.body.user
     var marcha = req.body.marcha
     var claveEscucha = getHashKey()
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    var ip = req.ip
         
     connection.query("select * from Usuarios where idFacebook='" + user + "'", function (err, rows)
 	{
