@@ -112,7 +112,7 @@ router.post('/users/logup', function(req, res)
 		else
 		{
 			res.set({ 'content-type': 'application/json; charset=utf-8' });
-			res.send("{'code': '41' 'message': 'user already registered'}");
+			res.send("{'code': '41', 'message': 'user already registered'}");
 		}
 	});
 });
@@ -130,12 +130,12 @@ router.post('/users/login', function(req, res)
 		if(rows.length == 0)
 		{
 			res.set({ 'content-type': 'application/json; charset=utf-8' });
-			res.send("{'code': '42' 'message': 'unregistered user'}");
+			res.send("{'code': '42', 'message': 'unregistered user'}");
 		}
 		else
 		{
 			res.set({ 'content-type': 'application/json; charset=utf-8' });
-			res.send("{'code': '20' 'message': 'ok'}");
+			res.send("{'code': '20', 'message': 'ok'}");
 		}
 	});
 });
