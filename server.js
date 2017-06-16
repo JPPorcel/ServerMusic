@@ -141,6 +141,50 @@ router.post('/users/login', function(req, res)
 });
 
 
+router.post('/users/followers/new', function(req, res)
+{
+	var idUser1 = req.body.idUser1;
+    var idUser2 = req.body.idUser2;
+	
+	connection.query("select * from Seguidores where idUsuario1='" + idUser1 + "' and idUsuario2='" + idUser2 + "'", function (err, rows)
+	{
+		if(err)
+			throw err;
+		
+		if(rows.length == 0)
+		{
+			connection.query("select * from Usuarios where idFacebook='" + idUser1 + "' or idFacebook='" + idUser2 + "'", function (err, rows)
+            {
+                if(err)
+                    throw err;
+                
+                if(rows.length == 2)
+                {
+                    connection.query("insert into Seguidores values ('"+ idUser1 + "', '" + idUser2 + "')", function (err, rows)
+                    {
+                        if(err)
+                            throw err;
+                        
+                        res.set({ 'content-type': 'application/json; charset=utf-8' });
+                        res.send("{'code': '20', 'message': 'ok'}");
+                    });
+                }
+                else
+                {
+                    res.set({ 'content-type': 'application/json; charset=utf-8' });
+                    res.send("{'code': '43', 'message': 'user does not exists'}");
+                }
+            });
+		}
+		else
+		{
+			res.set({ 'content-type': 'application/json; charset=utf-8' });
+			res.send("{'code': '44', 'message': 'users are already following'}");
+		}
+	});
+});
+
+
 router.post('/historial/nuevo', function(req, res)
 {
     var user = req.body.user
@@ -164,7 +208,7 @@ router.post('/historial/nuevo', function(req, res)
 		if(rows.length == 0)
 		{
 			res.set({ 'content-type': 'application/json; charset=utf-8' });
-			res.send("{'message': 'user does not exists'}");
+			res.send("{'code': '43', 'message': 'user does not exists'}");
 		}
 		else
 		{
@@ -174,7 +218,7 @@ router.post('/historial/nuevo', function(req, res)
                     throw err;
                 
                 res.set({ 'content-type': 'application/json; charset=utf-8' });
-                res.send("{'message': 'ok'}");
+                res.send("{'code': '20', 'message': 'ok'}");
             });
 		}
 	});
