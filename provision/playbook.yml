@@ -55,4 +55,4 @@
       apt: pkg=nginx state=present
       
     - name: Configure nginx
-      shell: 'cd /opt/app/provision && cp sites-available_default /etc/nginx/sites-available/default && sudo service nginx restart'
+      shell: 'cd /opt/app/provision && cp sites-available_default /etc/nginx/sites-available/default && sudo service nginx restart && iptables -A INPUT ! -s 127.0.0.1 -p tcp -m tcp --dport 8080 -j DROP'

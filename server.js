@@ -85,7 +85,7 @@ router.get('/filtro/:filtro', function(req, res)
 	});
 });
 
-router.post('/users/register', function(req, res)
+router.post('/users/logup', function(req, res)
 {
 	var id = req.body.idFacebook;
 	var nombre = req.body.nombre;
@@ -106,13 +106,36 @@ router.post('/users/register', function(req, res)
 					throw err;
 				
 				res.set({ 'content-type': 'application/json; charset=utf-8' });
-				res.send("{'message': 'ok'}");
+				res.send("{'code': '20', 'message': 'ok'}");
 			});
 		}
 		else
 		{
 			res.set({ 'content-type': 'application/json; charset=utf-8' });
-			res.send("{'message': 'user already registered'}");
+			res.send("{'code': '41' 'message': 'user already registered'}");
+		}
+	});
+});
+
+
+router.post('/users/login', function(req, res)
+{
+	var id = req.body.idFacebook;
+	
+	connection.query("select * from Usuarios where idFacebook='" + id + "'", function (err, rows)
+	{
+		if(err)
+			throw err;
+		
+		if(rows.length == 0)
+		{
+			res.set({ 'content-type': 'application/json; charset=utf-8' });
+			res.send("{'code': '42' 'message': 'unregistered user'}");
+		}
+		else
+		{
+			res.set({ 'content-type': 'application/json; charset=utf-8' });
+			res.send("{'code': '20' 'message': 'ok'}");
 		}
 	});
 });
