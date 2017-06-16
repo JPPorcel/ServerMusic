@@ -193,7 +193,7 @@ router.post('/historial/nuevo', function(req, res)
     var user = req.body.user
     var marcha = req.body.marcha
     var claveEscucha = getHashKey()
-    var ip = req.ip
+    var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress
         
     connection.query("select * from Usuarios where idFacebook='" + user + "'", function (err, rows)
 	{
