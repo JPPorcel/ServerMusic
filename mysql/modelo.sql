@@ -61,8 +61,15 @@ create table if not exists Listas
 (
 	id varchar(50) not null,
 	titulo varchar(200) not null,
+	creador varchar(100) references Usuarios(idFacebook),
+	primary key (id)
+);
+
+create table if not exists ListasMarchas
+(
+	lista varchar(50) not null references Listas(id),
 	marcha varchar(50) not null references Marchas(id),
-	primary key (id, marcha)
+	primary key (lista, marcha)
 );
 
 create table if not exists Escuchas 

@@ -76,15 +76,32 @@ router.get('/marcha/info/:id', function(req, res)
 
 router.get('/filtro/:filtro', function(req, res)
 {
-	connection.query("select * from Marchas where titulo like '%" + req.params.filtro + "%' or autor like '%" + req.params.filtro + "%'", function (err, rows)
+	connection.query("select * from Marchas where titulo like '%" + req.params.filtro + "%'", function (err, marchas)
 	{
 		if(err)
 			throw err;
-		
-		console.log(req.params.filtro);
-		
-		res.set({ 'content-type': 'application/json; charset=utf-8' });
-		res.send(rows);
+        
+        connection.query("select * from Autores where nombre like '%" + req.params.filtro + "%'", function (err, autores)
+        {
+            if(err)
+                throw err;
+            
+            connection.query("select * from Listas where nombre like '%" + req.params.filtro + "%'", function (err, listas)
+            {
+                if(err)
+                    throw err;
+                
+                connection.query("select * from Usuarios where nombre like '%" + req.params.filtro + "%'", function (err, usuarios)
+                {
+                    if(err)
+                        throw err;
+                    
+                    res.set({ 'content-type': 'application/json; charset=utf-8' });
+                    res.send("{'marchas':" + marchas + ", 'autores':" + autores + ", 'listas':" + listas + ", 'usuarios':", + usuarios"}");
+                });
+            });
+        });		
+		//console.log(req.params.filtro);
 	});
 });
 
@@ -193,7 +210,6 @@ router.post('/historial/nuevo', function(req, res)
     var user = req.body.user
     var marcha = req.body.marcha
     var claveEscucha = getHashKey()
-    var ip = req.headers['X-Real-IP'] || req.connection.remoteAddress
         
     connection.query("select * from Usuarios where idFacebook='" + user + "'", function (err, rows)
 	{
@@ -207,7 +223,7 @@ router.post('/historial/nuevo', function(req, res)
 		}
 		else
 		{
-			connection.query("insert into Escuchas values ('"+ claveEscucha + "', '" + user + "', '" + marcha + "', '" + ip + "', now())", function (err, rows)
+			connection.query("insert into Escuchas values ('"+ claveEscucha + "', '" + user + "', '" + marcha + "', now())", function (err, rows)
             {
                 if(err)
                     throw err;
