@@ -60,7 +60,7 @@ create table if not exists Marchas
 create table if not exists Listas
 (
 	id varchar(50) not null,
-	titulo varchar(200) not null,
+	nombre varchar(200) not null,
 	creador varchar(100) references Usuarios(idFacebook),
 	primary key (id)
 );
@@ -77,7 +77,6 @@ create table if not exists Escuchas
 	claveEscucha varchar(50) not null,
     idUsuario varchar(100) not null references Usuarios(idFacebook),
     idMarcha varchar(50) not null references Marchas(id),
-    ip varchar(50),
     fecha datetime,
     primary key (claveEscucha)
 );
@@ -87,7 +86,6 @@ create table if not exists Busquedas
 	claveBusqueda varchar(50) not null,
     idUsuario varchar(100) not null references Usuarios(idFacebook),
     busqueda varchar(200) not null,
-    ip varchar(50),
     fecha datetime,
     primary key (claveBusqueda)
 );
