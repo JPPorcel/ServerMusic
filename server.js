@@ -81,6 +81,8 @@ router.get('/filtro/:filtro', function(req, res)
 		if(err)
 			throw err;
         
+        console.log(marchas);
+        
         connection.query("select * from Autores where nombre like '%" + req.params.filtro + "%'", function (err, autores)
         {
             if(err)
@@ -91,10 +93,14 @@ router.get('/filtro/:filtro', function(req, res)
                 if(err)
                     throw err;
                 
+                console.log(listas);
+                
                 connection.query("select * from Usuarios where nombre like '%" + req.params.filtro + "%'", function (err, usuarios)
                 {
                     if(err)
                         throw err;
+                    
+                    console.log(usuarios);
                     
                     res.set({ 'content-type': 'application/json; charset=utf-8' });
                     res.send("{'marchas':" + marchas + ", 'autores':" + autores + ", 'listas':" + listas + ", 'usuarios':", + usuarios + "}");
