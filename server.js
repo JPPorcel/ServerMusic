@@ -96,7 +96,7 @@ router.get('/filtro/:filtro', function(req, res)
                     if(err)
                         throw err;
                     
-                    result = "{'marchas':[" + JSON.stringify(marchas) + "], 'autores':[" + JSON.stringify(autores) + "], 'listas':[" + JSON.stringify(listas) + "], 'usuarios':[" + JSON.stringify(usuarios) + "]}"
+                    result = "{'marchas':" + JSON.stringify(marchas) + ", 'autores':" + JSON.stringify(autores) + ", 'listas':" + JSON.stringify(listas) + ", 'usuarios':" + JSON.stringify(usuarios) + "}"
                     
                     res.set({ 'content-type': 'application/json; charset=utf-8' });
                     res.send(String(result));
