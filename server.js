@@ -188,6 +188,29 @@ router.post('/playlist/add', function(req, res)
 				if(err)
 					throw err;
 				
+                connection.query("select * from ListasMarchas where lista='" + lista + "' and marcha='" + marcha + "'", function (err, rows)
+                {
+                    if(err)
+                        throw err;
+                    
+                    if(rows.length == 0)
+                    {
+                        connection.query("insert into ListasMarchas values ('"+ lista + "', '" + marcha + "')", function (err, rows)
+                        {
+                            if(err)
+                                throw err;
+                            
+                            res.set({ 'content-type': 'application/json; charset=utf-8' });
+                            res.send("{'code': '20', 'message': 'ok'}");
+                        });
+                    }
+                    else
+                    {
+                        res.set({ 'content-type': 'application/json; charset=utf-8' });
+                        res.send("{'code': '47', 'message': 'la marcha ya esta en la lista'}");
+                    }
+                });
+                
 				res.set({ 'content-type': 'application/json; charset=utf-8' });
 				res.send("{'code': '20', 'message': 'ok'}");
 			});
@@ -302,6 +325,35 @@ router.post('/historial/nuevo', function(req, res)
 router.get('/historial/:user', function(req, res)
 {
 	connection.query("select * from Escuchas where idFacebook=" + req.params.user + " order by fecha desc", function (err, rows)
+	{
+		if(err)
+			throw err;
+		
+		console.log(req.params.filtro);
+		
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
+		res.send(rows);
+	});
+});
+
+
+router.get('/playlists/:user', function(req, res)
+{
+	connection.query("select * from Listas where creador=" + req.params.user, function (err, rows)
+	{
+		if(err)
+			throw err;
+		
+		console.log(req.params.filtro);
+		
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
+		res.send(rows);
+	});
+});
+
+router.get('/playlist/:id', function(req, res)
+{
+	connection.query("select * from ListasMarchas join Marchas on Listas.marcha=Marchas.id where lista=" + req.params.id, function (err, rows)
 	{
 		if(err)
 			throw err;
