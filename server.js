@@ -88,6 +88,8 @@ router.get('/filtro/:filtro', function(req, res)
             if(err)
                 throw err;
             
+            console.log(autores);
+            
             connection.query("select * from Listas where nombre like '%" + req.params.filtro + "%'", function (err, listas)
             {
                 if(err)
@@ -102,8 +104,10 @@ router.get('/filtro/:filtro', function(req, res)
                     
                     console.log(usuarios);
                     
+                    result = "{'marchas':" + marchas + ", 'autores':" + autores + ", 'listas':" + listas + ", 'usuarios':", + usuarios + "}"
+                    
                     res.set({ 'content-type': 'application/json; charset=utf-8' });
-                    res.send("{'marchas':" + marchas + ", 'autores':" + autores + ", 'listas':" + listas + ", 'usuarios':", + usuarios + "}");
+                    res.send(String(result));
                 });
             });
         });		
