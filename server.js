@@ -97,7 +97,7 @@ router.get('/filtro/:filtro', function(req, res)
                         throw err;
                     
                     res.set({ 'content-type': 'application/json; charset=utf-8' });
-                    res.send("{'marchas':" + marchas + ", 'autores':" + autores + ", 'listas':" + listas + ", 'usuarios':", + usuarios"}");
+                    res.send("{'marchas':" + marchas + ", 'autores':" + autores + ", 'listas':" + listas + ", 'usuarios':", + usuarios + "}");
                 });
             });
         });		
