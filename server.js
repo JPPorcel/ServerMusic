@@ -86,12 +86,12 @@ router.get('/filtro/:filtro', function(req, res)
             if(err)
                 throw err;
             
-            connection.query("select * from Listas where nombre like '%" + req.params.filtro + "%'", function (err, listas)
+            connection.query("select Listas.nombre as nombre, Listas.id as idLista, Listas.creador as idCreador, Usuarios.nombre as nombreUsuario from Listas join Usuarios on Listas.creador=Usuarios.idFacebook where nombre like '%" + req.params.filtro + "%'", function (err, listas)
             {
                 if(err)
                     throw err;
                 
-                connection.query("select * from Usuarios where nombre like '%" + req.params.filtro + "%'", function (err, usuarios)
+                connection.query("select Usuarios.idFacebook as idFacebook, Usuarios.nombre as nombre, Usuarios.apellidos as apellidos, Usuarios.localidad as idLocalidad, Usuarios.imagen as imagen, Localidad.nombre as localidad from Usuarios join Localidad on Usuarios.localidad=Localidad.id where nombre like '%" + req.params.filtro + "%'", function (err, usuarios)
                 {
                     if(err)
                         throw err;
