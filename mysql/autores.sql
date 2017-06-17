@@ -1,6 +1,7 @@
 SET NAMES 'utf8' COLLATE 'utf8_general_ci';
 
-insert into Autores values ("6741152091264f7c8564853e9fc9dc99", "Manuel Gómez Monsalve"),
+insert into Autores(id, nombre) values 
+("6741152091264f7c8564853e9fc9dc99", "Manuel Gómez Monsalve"),
 ("a50edfa5d7ee449f8a23038f691b399b", "Miguel Ángel Flores del Río"),
 ("5f0e267a7fc64b6fa4e7b6335e759c78", "Vicente Fernández García"),
 ("22fd6ef316e3425bb91037ca700b5a8c", "Manuel Garrido López y Jose Albero Francés"),

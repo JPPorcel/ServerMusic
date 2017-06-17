@@ -1,6 +1,7 @@
 SET NAMES 'utf8' COLLATE 'utf8_general_ci';
 
-insert into Marchas values ("Lw4Dkm4nHlo", "15 Años", "Marco Antonio Sánchez García", "CT", 84.9763265306, "37b9bfa65abd4b41b665d77bd1f60651"),
+insert into Marchas(id, titulo, autor, tipo, duration, idAutor) values 
+("Lw4Dkm4nHlo", "15 Años", "Marco Antonio Sánchez García", "CT", 84.9763265306, "37b9bfa65abd4b41b665d77bd1f60651"),
 ("PVEsjSgEviQ", "25 Años de Esperanza", "José Ortega Piñero y José Francisco García Conde", "CT", 127.921632653, "5dfa94c032ce45a7874dd59b913d6d0b"),
 ("8NEbFFdUOL8", "¡ABBÁ!", "Diego Molina Piñera", "BM", 340.401632653, "7cd80a49b85a4a82807367757ae5dd0a"),
 ("Yi-l8EG_LYM", "Abrazado a tu Cruz", "José Luis Jurado González y Jorge Martín Puerto", "CT", 176.222040816, "8ba909b4a42a47b38183338bf8559842"),

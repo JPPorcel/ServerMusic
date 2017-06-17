@@ -43,6 +43,7 @@ create table if not exists Autores
 (
 	id varchar(50) not null,
 	nombre varchar(200) not null,
+	imagen varchar(200),
 	primary key (id)
 );
 
@@ -54,6 +55,7 @@ create table if not exists Marchas
     tipo varchar(10) not null,
     duration double,
     idAutor varchar(50) not null references Autores(id),
+    imagen varchar(200),
     primary key (id)
 );
 
@@ -62,6 +64,7 @@ create table if not exists Listas
 	id varchar(50) not null,
 	nombre varchar(200) not null,
 	creador varchar(100) references Usuarios(idFacebook),
+	imagen varchar(200),
 	primary key (id)
 );
 
