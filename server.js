@@ -367,10 +367,28 @@ router.get('/historial/:user', function(req, res)
 		if(err)
 			throw err;
 		
-		console.log(req.params.filtro);
-		
 		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
+	});
+});
+
+router.get('/library/:user', function(req, res)
+{
+	connection.query("select * from Listas where idFacebook=" + req.params.user, function (err, listas)
+	{
+		if(err)
+			throw err;
+		
+		connection.query("select idMarcha from Escuchas where idUsuario='"+ re.params.user +"' group by idMarcha order by count(idMarcha) desc limit 10;", function (err, marchas)
+        {
+            if(err)
+                throw err;
+            
+            result = '{"marchas":' + JSON.stringify(marchas) + ', "listas":' + JSON.stringify(listas) + '}'
+                    
+            res.set({ 'content-type': 'application/json; charset=utf-8' });
+            res.send(String(result));
+        });
 	});
 });
 
@@ -381,8 +399,6 @@ router.get('/playlists/:user', function(req, res)
 	{
 		if(err)
 			throw err;
-		
-		console.log(req.params.filtro);
 		
 		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
@@ -396,8 +412,6 @@ router.get('/playlist/:id', function(req, res)
 		if(err)
 			throw err;
 		
-		console.log(req.params.filtro);
-		
 		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
 	});
@@ -409,8 +423,6 @@ router.get('/historial/:user/:n', function(req, res)
 	{
 		if(err)
 			throw err;
-		
-		console.log(req.params.filtro);
 		
 		res.set({ 'content-type': 'application/json; charset=utf-8' });
 		res.send(rows);
