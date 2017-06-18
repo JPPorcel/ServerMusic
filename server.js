@@ -329,6 +329,8 @@ router.post('/users/followers/new', function(req, res)
 });
 
 
+
+
 router.post('/historial/nuevo', function(req, res)
 {
     var user = req.body.user
@@ -390,6 +392,21 @@ router.get('/library/:user', function(req, res)
             res.send(String(result));
         });
 	});
+});
+
+
+router.get('/marchas/top', function(req, res)
+{
+	connection.query("select Escuchas.idMarcha as id, Marchas.titulo as titulo, Marchas.autor as autor, Marchas.tipo as tipo, Marchas.duration as duration, Marchas.idAutor as idAutor, Marchas.imagen as imagen from Escuchas join Marchas on Escuchas.idMarcha=Marchas.id group by Escuchas.idMarcha order by count(Escuchas.idMarcha) desc limit 20;", function (err, marchas)
+    {
+        if(err)
+            throw err;
+        
+        result = '{"marchas":' + JSON.stringify(marchas) + ', "listas":' + JSON.stringify(listas) + '}'
+                
+        res.set({ 'content-type': 'application/json; charset=utf-8' });
+        res.send(String(result));
+    });
 });
 
 
