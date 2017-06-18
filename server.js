@@ -407,7 +407,7 @@ router.get('/playlists/:user', function(req, res)
 
 router.get('/playlist/:id', function(req, res)
 {
-	connection.query("select * from ListasMarchas join Marchas on Listas.marcha=Marchas.id where lista='" + req.params.id +"'", function (err, rows)
+	connection.query("select * from ListasMarchas join Marchas on ListasMarchas.marcha=Marchas.id where ListasMarchas.lista='" + req.params.id +"'", function (err, rows)
 	{
 		if(err)
 			throw err;
