@@ -379,7 +379,7 @@ router.get('/library/:user', function(req, res)
 		if(err)
 			throw err;
 		
-		connection.query("select idMarcha from Escuchas where idUsuario='"+ re.params.user +"' group by idMarcha order by count(idMarcha) desc limit 10;", function (err, marchas)
+		connection.query("select idMarcha from Escuchas where idUsuario='"+ req.params.user +"' group by idMarcha order by count(idMarcha) desc limit 10;", function (err, marchas)
         {
             if(err)
                 throw err;
