@@ -374,7 +374,7 @@ router.get('/historial/:user', function(req, res)
 
 router.get('/library/:user', function(req, res)
 {
-	connection.query("select * from Listas where idFacebook=" + req.params.user, function (err, listas)
+	connection.query("select * from Listas where creador=" + req.params.user, function (err, listas)
 	{
 		if(err)
 			throw err;
