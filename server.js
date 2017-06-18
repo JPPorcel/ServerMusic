@@ -401,11 +401,9 @@ router.get('/marchas/top', function(req, res)
     {
         if(err)
             throw err;
-        
-        result = '{"marchas":' + JSON.stringify(marchas) + ', "listas":' + JSON.stringify(listas) + '}'
                 
         res.set({ 'content-type': 'application/json; charset=utf-8' });
-        res.send(String(result));
+        res.send(marchas);
     });
 });
 
