@@ -140,6 +140,44 @@ router.post('/users/logup', function(req, res)
 });
 
 
+router.post('/playlist/new_add', function(req, res)
+{
+    var id = getHashKey()
+	var user = req.body.user;
+	var nombre = req.body.nombre;
+    var marcha = req.body.marcha
+	
+	connection.query("select * from Usuarios where idFacebook='" + user + "'", function (err, rows)
+	{
+		if(err)
+			throw err;
+		
+		if(rows.length == 1)
+		{
+			connection.query("insert into Listas(id, nombre, creador) values ('"+ id + "', '" + nombre + "', '" + user + "')", function (err, rows)
+			{
+				if(err)
+					throw err;
+				
+				connection.query("insert into ListasMarchas values ('"+ id + "', '" + marcha + "')", function (err, rows)
+                {
+                    if(err)
+                        throw err;
+                    
+                    res.set({ 'content-type': 'application/json; charset=utf-8' });
+                    res.send("{'code': '20', 'message': 'ok'}");
+                });
+			});
+		}
+		else
+		{
+			res.set({ 'content-type': 'application/json; charset=utf-8' });
+            res.send("{'code': '43', 'message': 'user does not exists'}");
+		}
+	});
+});
+
+
 router.post('/playlist/new', function(req, res)
 {
     var id = getHashKey()
