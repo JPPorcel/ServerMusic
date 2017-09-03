@@ -53,6 +53,19 @@ router.get('/marchas', function(req, res)
 	});
 });
 
+
+// devolverá lista de autores
+router.get('/autores', function(req, res) 
+{  
+	connection.query("select * from Autores",function(err,rows){
+		if(err) 
+			throw err;
+		
+		res.set({ 'content-type': 'application/json; charset=utf-8' });
+		res.send(rows);
+	});
+});
+
 // devuelve el archivo de audio de una marcha, si existe
 router.get('/marcha/:id', function(req, res) 
 {  	
@@ -457,6 +470,6 @@ router.get('/localidades', function(req, res)
 
 app.use(router);
 
-app.listen(8080, function() {  
-	console.log("Node server running on http://localhost:8080");
+app.listen(8800, function() {  
+	console.log("Node server running on http://localhost:8800");
 });
